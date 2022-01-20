@@ -85,7 +85,10 @@ class SignUpScreen extends StatelessWidget {
                   Container(
                     width: 200.0,
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print(
+                            "Name : ${nameController.text}, Email : ${emailController.text}, Password : ${passController.text}");
+                      },
                       child: Text(
                         "Sign Up",
                         style: TextStyle(
@@ -147,7 +150,9 @@ class SignUpScreen extends StatelessWidget {
           MyApp().setSelectedIndex(index);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => index == 0 ? LoginScreen():SignUpScreen()),
+            MaterialPageRoute(
+                builder: (context) =>
+                    index == 0 ? LoginScreen() : SignUpScreen()),
           );
         },
       ),
