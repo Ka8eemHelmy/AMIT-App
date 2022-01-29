@@ -1,25 +1,27 @@
+import 'package:amit_task/Layouts/CarouselSlider.dart';
+import 'package:amit_task/Layouts/LoginScreen.dart';
+import 'package:amit_task/Layouts/SignUpScreen.dart';
 import 'package:amit_task/Models/Categories.dart';
 import 'package:amit_task/Models/Products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void navigateTo(context, widget) => Navigator.push(
+void navigateTo(context, widget) =>
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => widget,
       ),
     );
 
-void navigateAndFinish(
-  context,
-  widget,
-) =>
+void navigateAndFinish(context,
+    widget,) =>
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => widget,
       ),
-      (Route<dynamic> route) => false,
+          (Route<dynamic> route) => false,
     );
 
 Widget buildProductItem(Product product) {
@@ -28,6 +30,8 @@ Widget buildProductItem(Product product) {
       borderRadius: BorderRadius.circular(10.0),
       color: Colors.white,
     ),
+    //width: double.infinity,
+    //height: 800.0,
     clipBehavior: Clip.antiAliasWithSaveLayer,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +145,7 @@ Widget buildCategoryItem(Category cat) {
 //Widget that build one Item of Cart
 Widget buildCartItem() {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
+    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
     child: Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
@@ -215,7 +219,7 @@ Widget buildCartItem() {
                         color: Colors.red,
                       ),
                       SizedBox(
-                        width: 5.0,
+                        width: 2.0,
                       ),
                       Text(
                         '1',
@@ -227,7 +231,7 @@ Widget buildCartItem() {
                         ),
                       ),
                       SizedBox(
-                        width: 5.0,
+                        width: 2.0,
                       ),
                       IconButton(
                         onPressed: () {},
@@ -245,6 +249,43 @@ Widget buildCartItem() {
           ),
         ],
       ),
+    ),
+  );
+}
+
+Widget drawerBuilder (context){
+  return Drawer(
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        DrawerHeader(
+          decoration: BoxDecoration(
+            color: Colors.red,
+          ),
+          // child: Image(image: NetworkImage('https://www.amit-learning.com/assets/logo.png'),),
+          child: ComplicatedImageDemo(),
+        ),
+        ListTile(
+          title: const Text('Login'),
+          leading: Icon(
+            Icons.login,
+            color: Colors.red,
+          ),
+          onTap: () {
+            navigateTo(context, LoginScreen());
+          },
+        ),
+        ListTile(
+          title: const Text('Sign Up'),
+          leading: Icon(
+            Icons.app_registration,
+            color: Colors.red,
+          ),
+          onTap: () {
+            navigateTo(context, SignUpScreen());
+          },
+        ),
+      ],
     ),
   );
 }

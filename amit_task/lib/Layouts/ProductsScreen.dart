@@ -26,22 +26,24 @@ class ProductsScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: 10.0,
                 crossAxisSpacing: 10.0,
-                childAspectRatio: 1 / 1.49,
+                childAspectRatio: 1 / 1.55,
                 children: List.generate(
-                  AppCubit.get(context).productsList.length,
+                  AppCubit.get(context).toggleProducts?
+                  AppCubit.get(context).productsList.length : AppCubit.get(context).ProductsOfCategory.length,
                   (index) => InkWell(
                       onTap: () {
-                        print(
-                            'Click ${AppCubit.get(context).productsList[index].id}');
+                        // print(
+                        //   'Click ${AppCubit.get(context).productsList[index].id}',
+                        // );
                         navigateTo(
                           context,
                           ProductItemScreen(
-                            product: AppCubit.get(context).productsList[index],
+                            product: AppCubit.get(context).toggleProducts ? AppCubit.get(context).productsList[index] : AppCubit.get(context).ProductsOfCategory[index],
                           ),
                         );
                       },
                       child: buildProductItem(
-                          AppCubit.get(context).productsList[index])),
+                          AppCubit.get(context).toggleProducts ? AppCubit.get(context).productsList[index] : AppCubit.get(context).ProductsOfCategory[index])),
                 ),
               ),
             ),

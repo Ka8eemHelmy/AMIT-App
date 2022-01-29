@@ -21,18 +21,51 @@ class CategoriesScreen extends StatelessWidget {
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: GridView.count(
-                  //to animate the Scroll to be Bouncing
-                  physics: BouncingScrollPhysics(),
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  childAspectRatio: 1 / 0.7,
-                  children: List.generate(
-                    AppCubit.get(context).categoriesList.length,
-                    (index) => buildCategoryItem(
-                        AppCubit.get(context).categoriesList[index]),
-                  ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: GridView.count(
+                        //to animate the Scroll to be Bouncing
+                        physics: BouncingScrollPhysics(),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10.0,
+                        childAspectRatio: 1 / 0.7,
+                        children: List.generate(
+                          AppCubit.get(context).categoriesList.length,
+                          (index) => InkWell(
+                            child: buildCategoryItem(
+                                AppCubit.get(context).categoriesList[index]),
+                            onTap: () {
+                              print(
+                                  'Cat : ${AppCubit.get(context).categoriesList[index].id}');
+                              AppCubit.get(context).getCategoryProducts(AppCubit.get(context).categoriesList[index].id);
+                              AppCubit.get(context).bottomNavigationIndexChanged(0);
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          textStyle: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      onPressed: () {
+                        AppCubit.get(context).toggleProduct(true);
+                        AppCubit.get(context).bottomNavigationIndexChanged(0);
+                      },
+                      child: Container(
+                        height: 60.0,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'All Products',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

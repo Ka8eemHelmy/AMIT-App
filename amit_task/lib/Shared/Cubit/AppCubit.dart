@@ -43,6 +43,12 @@ class AppCubit extends Cubit<AppStates> {
   //Define User Model
   User? user;
 
+  //Define List of Products of Category by ID
+  List<Product> ProductsOfCategory=[];
+
+  //Define bool toggle get product
+  bool toggleProducts = true;
+
   //Change Index of BottomNavigationBar
   void bottomNavigationIndexChanged(int index) {
     navigationIndex = index;
@@ -170,6 +176,22 @@ class AppCubit extends Cubit<AppStates> {
       print('Error Login here : $error');
       emit(RegisterError(error));
     });
+  }
+
+  void getCategoryProducts(int catID){
+    emit(GetCategoryProductsLoading());
+    ProductsOfCategory=[];
+    for(int i=0;i<productsList.length;i++){
+      if(productsList[i].categoryID==catID){
+        ProductsOfCategory.add(productsList[i]);
+      }
+    }
+    toggleProduct(false);
+    emit(GetCategoryProductsSuccess());
+  }
+
+  void toggleProduct(bool toggle){
+    toggleProducts = toggle;
   }
 
 // void changeQuantityOfCart(Product product, int quantity){
