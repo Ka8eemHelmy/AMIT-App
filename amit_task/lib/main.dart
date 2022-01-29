@@ -1,35 +1,43 @@
+import 'package:amit_task/HomeScreen.dart';
+import 'package:amit_task/Layouts/LoginScreen.dart';
+import 'package:amit_task/Shared/Cubit/AppCubit.dart';
+import 'package:amit_task/Shared/Cubit/Observer.dart';
+import 'package:amit_task/Shared/Network/Remote/DioHelper.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'HomeScreen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'Shared/Cubit/AppStates.dart';
 
 void main() {
-  runApp(const MyApp());
+  BlocOverrides.runZoned(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+      await DioHelper.init();
+      runApp(MyApp());
+    },
+    blocObserver: MyBlocObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  //Index of Button Navigator
-  static int _selectedIndex = 2;
-
-  //Getter of _selectedIndex
-  int getSelectedIndex() {
-    return _selectedIndex;
-  }
-
-  //Setter of _selectedIndex
-  void setSelectedIndex(num) {
-    _selectedIndex = num;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Orange Task',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => AppCubit()..getProductssData(),
+      child: BlocConsumer<AppCubit, AppStates>(
+        listener: (context, state) {},
+        builder: (context, state) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Orange Task',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: HomeScreen(),
+          //home: LoginScreen(),
+        ),
       ),
-      home: HomeScreen(),
     );
   }
 }

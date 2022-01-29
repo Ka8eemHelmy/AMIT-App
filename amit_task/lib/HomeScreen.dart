@@ -1,58 +1,48 @@
-import 'package:amit_task/Layouts/ProductsScreen.dart';
+import 'package:amit_task/Shared/Cubit/AppCubit.dart';
+import 'package:amit_task/Shared/Cubit/AppStates.dart';
 import 'package:flutter/material.dart';
-import 'Layouts/CategoriesScreen.dart';
-import 'Layouts/LoginScreen.dart';
-import 'Layouts/SignUpScreen.dart';
-import 'main.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  //Define List Objects from Screens
-  List<Widget> screens = [
-    ProductsScreen(),
-    CategoriesScreen(),
-    LoginScreen(),
-    SignUpScreen(),
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: screens[MyApp().getSelectedIndex()],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+    return BlocConsumer <AppCubit, AppStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        AppCubit cubit = AppCubit.get(context);
+        return Scaffold(
+          body: cubit.screens[cubit.navigationIndex],
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.category_outlined),
+                label: 'Categories',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add_shopping_cart),
+                label: 'Cart',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.menu),
+                label: 'Menu',
+              ),
+            ],
+            currentIndex: cubit.navigationIndex,
+            selectedItemColor: Colors.red,
+            onTap: (index) {
+              cubit.bottomNavigationIndexChanged(index);
+            },
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category_outlined),
-            label: 'Categories',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
-          ),
-        ],
-        currentIndex: MyApp().getSelectedIndex(),
-        selectedItemColor: Colors.red,
-        onTap: (index) {
-          setState(() {
-            MyApp().setSelectedIndex(index);
-          });
-        },
-      ),
+        );
+      },
     );
   }
 }
+
